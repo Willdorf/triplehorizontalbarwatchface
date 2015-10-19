@@ -1,0 +1,27 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+HEIGHT	triplehorizontalbar1.c	/^static int HEIGHT = 25;$/;"	v	language:C	file:
+NUM_BARS	triplehorizontalbar1.c	/^static int NUM_BARS = 3;$/;"	v	language:C	file:
+PADDING	triplehorizontalbar1.c	/^static int PADDING = 12;$/;"	v	language:C	file:
+deinit	triplehorizontalbar1.c	/^static void deinit(void) {$/;"	f	language:C	file:
+draw_watchface	triplehorizontalbar1.c	/^static void draw_watchface(Layer *layer, GContext *ctx) {$/;"	f	language:C	file:
+init	triplehorizontalbar1.c	/^static void init(void) {$/;"	f	language:C	file:
+main	triplehorizontalbar1.c	/^int main(void) {$/;"	f	language:C
+s_hour	triplehorizontalbar1.c	/^static uint8_t s_hour;$/;"	v	language:C	file:
+s_layer	triplehorizontalbar1.c	/^static Layer *s_layer;$/;"	v	language:C	file:
+s_min	triplehorizontalbar1.c	/^static uint8_t s_min;$/;"	v	language:C	file:
+s_sec	triplehorizontalbar1.c	/^static uint8_t s_sec;$/;"	v	language:C	file:
+s_ternary_ticks_bitmap	triplehorizontalbar1.c	/^static GBitmap *s_ternary_ticks_bitmap;$/;"	v	language:C	file:
+s_ternary_ticks_layer_minutes	triplehorizontalbar1.c	/^static BitmapLayer *s_ternary_ticks_layer_minutes;$/;"	v	language:C	file:
+s_ternary_ticks_layer_seconds	triplehorizontalbar1.c	/^static BitmapLayer *s_ternary_ticks_layer_seconds;$/;"	v	language:C	file:
+s_unary_ticks_bitmap	triplehorizontalbar1.c	/^static GBitmap *s_unary_ticks_bitmap;$/;"	v	language:C	file:
+s_unary_ticks_layer	triplehorizontalbar1.c	/^static BitmapLayer *s_unary_ticks_layer;$/;"	v	language:C	file:
+tick_handler	triplehorizontalbar1.c	/^static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {$/;"	f	language:C	file:
+update_time	triplehorizontalbar1.c	/^static void update_time(struct tm * tick_time) {$/;"	f	language:C	file:
+window	triplehorizontalbar1.c	/^static Window *window;$/;"	v	language:C	file:
+window_load	triplehorizontalbar1.c	/^static void window_load(Window *window) {$/;"	f	language:C	file:
+window_unload	triplehorizontalbar1.c	/^static void window_unload(Window *window) {$/;"	f	language:C	file:

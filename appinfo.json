@@ -1,0 +1,29 @@
+{
+  "uuid": "dc7a0958-b752-4251-8d90-6d6c83e2f7d9",
+  "shortName": "triplehorizontalbar1",
+  "longName": "triplehorizontalbar1",
+  "companyName": "ArmstrongWatchFaces",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["basalt"],
+  "watchapp": {
+    "watchface": true
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": [
+   	{
+		"type" : "png",
+		"name" : "IMAGE_UNARY_TICKS",
+		"file" : "unary_ticks.png"
+	},
+	{
+		"type" : "png",
+		"name" : "IMAGE_TERNARY_TICKS",
+		"file" : "ternary_ticks.png"
+	}
+    ]
+  }
+}
