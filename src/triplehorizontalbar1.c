@@ -58,6 +58,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
 	if (top_bar_color_t) {
 		int top_bar_color = top_bar_color_t->value->int32;
+		if (top_bar_color == 0) { //quick fix so that black colour persists
+			top_bar_color++;
+		}
 
 		persist_write_int(KEY_TOP_BAR_COLOR, top_bar_color);
 
@@ -68,6 +71,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
 	if (middle_bar_color_t) {
 		int middle_bar_color = middle_bar_color_t->value->int32;
+		if (middle_bar_color == 0) { //quick fix so that black colour persists
+			middle_bar_color++;
+		}
 
 		persist_write_int(KEY_MIDDLE_BAR_COLOR, middle_bar_color);
 
@@ -77,6 +83,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
 	if (bottom_bar_color_t) {
 		int bottom_bar_color = bottom_bar_color_t->value->int32;
+		if (bottom_bar_color == 0) { //quick fix so that black colour persists
+			bottom_bar_color++;
+		}
 
 		persist_write_int(KEY_BOTTOM_BAR_COLOR, bottom_bar_color);
 
@@ -86,6 +95,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
 	if (background_color_t) {
 		int background_color = background_color_t->value->int32;
+		if (background_color == 0) { //quick fix so that black colour persists
+			background_color++;
+		}
 		
 		persist_write_int(KEY_BACKGROUND_COLOR, background_color);
 
