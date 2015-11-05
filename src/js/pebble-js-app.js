@@ -3,7 +3,7 @@ Pebble.addEventListener('ready', function() {
 });
 
 Pebble.addEventListener('showConfiguration', function() {
-	var url = 'http://d052c64a.ngrok.io';
+	var url = 'http://armstrongwill.com/pebbleconfigurationpages/triplehorizontalbar/index.html';
 
 	console.log('Showing configuration page: ' + url);
 
