@@ -42,10 +42,10 @@ function getAndStoreConfigData() {
 	//	twentyFourHourFormat : $timeFormatCheckbox[0].checked
 	};
 
-	localStorage.topBarColor = options.topBarColor;
-	localStorage.middleBarColor = options.middleBarColor;
-	localStorage.bottomBarColor = options.bottomBarColor;
-	localStorage.backgroundColor = options.backgroundColor;
+	localStorage.willdorftriplehorizontalbartopBarColor = options.topBarColor;
+	localStorage.willdorftriplehorizontalbarmiddleBarColor = options.middleBarColor;
+	localStorage.willdorftriplehorizontalbarbottomBarColor = options.bottomBarColor;
+	localStorage.willdorftriplehorizontalbarbackgroundColor = options.backgroundColor;
 	//localStorage.twentyFourHourFormat = options.twentyFourHourFormat;
 
 	console.log('Got Options: ' + JSON.stringify(options));
@@ -60,10 +60,10 @@ function loadOptions() {
 	//var $timeFormatCheckbox = $('#timeFormatCheckbox');
 
 	if (localStorage.topBarColor) {
-		$topBarColorPicker[0].value = localStorage.topBarColor;
-		$middleBarColorPicker[0].value = localStorage.middleBarColor;
-		$bottomBarColorPicker[0].value = localStorage.bottomBarColor;
-		$backgroundColorPicker[0].value = localStorage.backgroundColor;
+		$topBarColorPicker[0].value = localStorage.willdorftriplehorizontalbartopBarColor;
+		$middleBarColorPicker[0].value = localStorage.willdorftriplehorizontalbarmiddleBarColor;
+		$bottomBarColorPicker[0].value = localStorage.willdorftriplehorizontalbarbottomBarColor;
+		$backgroundColorPicker[0].value = localStorage.willdorftriplehorizontalbarbackgroundColor;
 		//$timeFormatCheckbox[0].checked = localStorage.twentyFourHourFormat === 'true';
 	}
 }
