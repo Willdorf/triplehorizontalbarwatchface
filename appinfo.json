@@ -1,8 +1,8 @@
 {
   "uuid": "dc7a0958-b752-4251-8d90-6d6c83e2f7d9",
-  "shortName": "triplehorizontalbar1",
-  "longName": "triplehorizontalbar1",
-  "companyName": "ArmstrongWatchFaces",
+  "shortName": "Triple Horizontal Bar",
+  "longName": "Triple Horizontal Bar",
+  "companyName": "Willdorf",
   "versionLabel": "1.0",
   "sdkVersion": "3",
   "targetPlatforms": ["basalt"],
