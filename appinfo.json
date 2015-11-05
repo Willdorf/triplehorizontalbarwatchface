@@ -29,7 +29,13 @@
 		"type" : "png",
 		"name" : "IMAGE_TERNARY_TICKS",
 		"file" : "ternary_ticks.png"
-	}
+	},
+	{
+                "menuIcon" : true,
+                "type" : "png",
+                "name" : "IMAGE_MENU_ICON",
+                "file" : "menu.png"
+        }
     ]
   }
 }
