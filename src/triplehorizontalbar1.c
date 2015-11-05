@@ -113,7 +113,7 @@ static void draw_watchface(Layer *layer, GContext *ctx) {
 	uint16_t vert_padding = (bounds.size.h - ((NUM_BARS - 1)*PADDING) - (NUM_BARS*HEIGHT)) / 2;
 
 	//set the colour
-	graphics_context_set_fill_color(ctx, COLOR_FALLBACK(s_top_bar_color, GColorWhite));
+	graphics_context_set_fill_color(ctx, COLOR_FALLBACK(s_top_bar_color, GColorRed));
 
 	int8_t cur_hour = s_hour % 12;
 	if (cur_hour == 0) {
@@ -124,13 +124,13 @@ static void draw_watchface(Layer *layer, GContext *ctx) {
 	graphics_fill_rect(ctx, GRect(PADDING,vert_padding,((cur_hour) * width)/12, HEIGHT), 0, 0);
 
 	//set the colour
-	graphics_context_set_fill_color(ctx, COLOR_FALLBACK(s_middle_bar_color, GColorWhite));
+	graphics_context_set_fill_color(ctx, COLOR_FALLBACK(s_middle_bar_color, GColorGreen));
 
 	//display the minute bar
 	graphics_fill_rect(ctx, GRect(PADDING,vert_padding+(HEIGHT + PADDING),(s_min * width)/60, HEIGHT), 0, 0);
 
 	//set the colour
-	graphics_context_set_fill_color(ctx, COLOR_FALLBACK(s_bottom_bar_color, GColorWhite));
+	graphics_context_set_fill_color(ctx, COLOR_FALLBACK(s_bottom_bar_color, GColorBlue));
 
 	//display the second bar
 	graphics_fill_rect(ctx, GRect(PADDING,vert_padding + (2*HEIGHT) + (2 * PADDING),(s_sec * width)/60, HEIGHT), 0, 0);
@@ -174,19 +174,25 @@ static void window_load(Window *window) {
 	if (persist_read_int(KEY_TOP_BAR_COLOR)) {
 		s_top_bar_color = GColorFromHEX(persist_read_int(KEY_TOP_BAR_COLOR));
 	///	set_background_and_text_color(background_color);
+	} else {
+		s_top_bar_color = GColorRed;
 	}
 
 	if (persist_read_int(KEY_MIDDLE_BAR_COLOR)) {
 		s_middle_bar_color = GColorFromHEX(persist_read_int(KEY_MIDDLE_BAR_COLOR));
+	} else {
+		s_middle_bar_color = GColorGreen;
 	}
 
 	if (persist_read_int(KEY_BOTTOM_BAR_COLOR)) {
 		s_bottom_bar_color = GColorFromHEX(persist_read_int(KEY_BOTTOM_BAR_COLOR));
+	} else {
+		s_bottom_bar_color = GColorBlue;
 	}
 
 	if (persist_read_int(KEY_BACKGROUND_COLOR)) {
 		set_background_and_text_color(persist_read_int(KEY_BACKGROUND_COLOR));
-	}
+	} 
 
 //	if (persist_read_bool(KEY_TWENTY_FOUR_HOUR_FORMAT)) {
 //		twenty_four_hour_format = persist_read_bool(KEY_TWENTY_FOUR_HOUR_FORMAT);
