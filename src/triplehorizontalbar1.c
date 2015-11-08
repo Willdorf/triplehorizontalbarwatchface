@@ -219,6 +219,9 @@ static void window_unload(Window *window) {
 	gbitmap_destroy(s_ternary_ticks_bitmap);
 	bitmap_layer_destroy(s_ternary_ticks_layer_minutes);
 	bitmap_layer_destroy(s_ternary_ticks_layer_seconds);
+
+	//destroy the main layer
+	layer_destroy(s_layer);
 }
 
 static void init(void) {
