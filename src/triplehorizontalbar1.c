@@ -3,7 +3,6 @@
 #define KEY_TOP_BAR_COLOR 0
 #define KEY_MIDDLE_BAR_COLOR 1
 #define KEY_BOTTOM_BAR_COLOR 2
-//#define KEY_TWENTY_FOUR_HOUR_FORMAT 3
 #define KEY_BACKGROUND_COLOR 3
 
 static Window *window;
@@ -27,8 +26,6 @@ static GBitmap *s_ternary_ticks_bitmap;
 static BitmapLayer *s_ternary_ticks_layer_minutes;
 static BitmapLayer *s_ternary_ticks_layer_seconds;
 
-//static bool twenty_four_hour_format = false;
-
 GColor s_top_bar_color;
 GColor s_middle_bar_color;
 GColor s_bottom_bar_color;
@@ -48,17 +45,12 @@ static void update_time(struct tm * tick_time) {
 	s_min = tick_time->tm_min;
 	s_sec = tick_time->tm_sec;
 	layer_mark_dirty(s_layer);
-
-	//	if (twenty_four_hour_format == true) {
-	//		APP_LOG(APP_LOG_LEVEL_DEBUG, "twenty_four_hour_format is true %s", twenty_four_hour_format ? "true" : "false");
-	//	}
 }
 
 static void set_background_and_text_color(int color) {
 	GColor background_color = GColorFromHEX(color);
 	//makes text legible over selected background color
 	window_set_background_color(window, background_color);
-	//text_layer_set_text_color(s_text_layer, gcolor_legible_over(background_color));
 }
 
 static void inbox_received_handler(DictionaryIterator *iter, void *context) {
@@ -67,7 +59,6 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	Tuple *middle_bar_color_t = dict_find(iter, KEY_MIDDLE_BAR_COLOR);
 	Tuple *bottom_bar_color_t = dict_find(iter, KEY_BOTTOM_BAR_COLOR);
 	Tuple *background_color_t = dict_find(iter, KEY_BACKGROUND_COLOR);
-	//Tuple *twenty_four_hour_format_t = dict_find(iter, KEY_TWENTY_FOUR_HOUR_FORMAT);
 
 	if (top_bar_color_t) {
 		int top_bar_color = top_bar_color_t->value->int32;
@@ -119,12 +110,6 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 		set_background_and_text_color(background_color);
 	}
 
-	//if (twenty_four_hour_format) {
-	//	twenty_four_hour_format = twenty_four_hour_format_t->value->int8;
-	//	persist_write_int(KEY_TWENTY_FOUR_HOUR_FORMAT, twenty_four_hour_format);
-	//	//could get struct tm *tick_time and call update_time.. but we don't have a twenty four hour format anyways
-	//	//update_time();
-	//}
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
@@ -218,10 +203,6 @@ static void window_load(Window *window) {
 	if (persist_read_int(KEY_BACKGROUND_COLOR)) {
 		set_background_and_text_color(persist_read_int(KEY_BACKGROUND_COLOR));
 	} 
-
-	//	if (persist_read_bool(KEY_TWENTY_FOUR_HOUR_FORMAT)) {
-	//		twenty_four_hour_format = persist_read_bool(KEY_TWENTY_FOUR_HOUR_FORMAT);
-	//	}
 
 	// Create the Bluetooth icon GBitmap
 	s_bt_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BT_ICON);
