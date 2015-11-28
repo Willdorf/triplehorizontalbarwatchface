@@ -1,8 +1,3 @@
-//gets run on configuration page
-//note we're using zepto not jquery
-//use $ prefix for zepto dom elements
-//
-
 (function() {
 	loadOptions();
 	submitHandler();
@@ -27,6 +22,16 @@ $submitButton.on('click', function() {
 	document.location = return_to + encodeURIComponent(JSON.stringify(getAndStoreConfigData()));
 });
 
+var degreeOption = 0;
+function tabClickHandler(value) {
+	console.log(value);
+	if (value == "Celsius") {
+		degreeOption = 0;
+	} else if (value == "Fahrenheit") {
+		degreeOption = 1;
+	}
+}
+
 function getAndStoreConfigData() {
 	var $topBarColorPicker = $('#topBarColorPicker');
 	var $middleBarColorPicker = $('#middleBarColorPicker');
@@ -39,6 +44,7 @@ function getAndStoreConfigData() {
 		middleBarColor: $middleBarColorPicker.val(),
 		bottomBarColor: $bottomBarColorPicker.val(),
 		backgroundColor : $backgroundColorPicker.val(),
+		degreeOption : degreeOption
 	//	twentyFourHourFormat : $timeFormatCheckbox[0].checked
 	};
 
@@ -46,6 +52,7 @@ function getAndStoreConfigData() {
 	localStorage.willdorftriplehorizontalbarmiddleBarColor = options.middleBarColor;
 	localStorage.willdorftriplehorizontalbarbottomBarColor = options.bottomBarColor;
 	localStorage.willdorftriplehorizontalbarbackgroundColor = options.backgroundColor;
+	localStorage.willdorftriplehorizontalbardegreeOption = options.degreeOption;
 	//localStorage.twentyFourHourFormat = options.twentyFourHourFormat;
 
 	console.log('Got Options: ' + JSON.stringify(options));
@@ -59,12 +66,22 @@ function loadOptions() {
 	var $backgroundColorPicker = $('#backgroundColorPicker');
 	//var $timeFormatCheckbox = $('#timeFormatCheckbox');
 
-	if (localStorage.topBarColor) {
+	if (localStorage.willdorftriplehorizontalbartopBarColor) {
 		$topBarColorPicker[0].value = localStorage.willdorftriplehorizontalbartopBarColor;
 		$middleBarColorPicker[0].value = localStorage.willdorftriplehorizontalbarmiddleBarColor;
 		$bottomBarColorPicker[0].value = localStorage.willdorftriplehorizontalbarbottomBarColor;
 		$backgroundColorPicker[0].value = localStorage.willdorftriplehorizontalbarbackgroundColor;
 		//$timeFormatCheckbox[0].checked = localStorage.twentyFourHourFormat === 'true';
+
+		//set the corresponding tab to active
+		degreeOption = localStorage.willdorftriplehorizontalbardegreeOption;
+		if (degreeOption == 0) {
+			$('#Celsius').attr('class', 'tab-button active');
+		} else {
+			$('#Fahrenheit').attr('class', 'tab-button active');
+		}
+	} else {
+		$('#Celsius').attr('class', 'tab-button active');
 	}
 }
 

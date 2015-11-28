@@ -16,7 +16,8 @@ Pebble.addEventListener('webviewclosed', function(e) {
 			topBarColor: parseInt(configData.topBarColor, 16),
 			middleBarColor: parseInt(configData.middleBarColor, 16),
 			bottomBarColor: parseInt(configData.bottomBarColor, 16),
-			backgroundColor : parseInt(configData.backgroundColor, 16)
+			backgroundColor : parseInt(configData.backgroundColor, 16),
+			degreeOption : parseInt(configData.degreeOption)
 		}, function() {
 			console.log("send successful!");
 		}, function() {
@@ -54,7 +55,7 @@ function locationSuccess(pos) {
 			var json = JSON.parse(responseText);
 
 			//Temperature is in Kelvin
-			var temperature = Math.round(json.main.temp - 273.15);
+			var temperature = Math.round(json.main.temp);
 			console.log('Temperature is ' + temperature);
 
 			//Conditions

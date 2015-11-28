@@ -18,7 +18,8 @@
 	  "bottomBarColor" : 2,
 	  "backgroundColor" : 3,
 	  "KEY_TEMPERATURE" : 4,
-	  "KEY_CONDITIONS" : 5
+	  "KEY_CONDITIONS" : 5,
+	  "degreeOption" : 6
   },
   "resources": {
     "media": [
