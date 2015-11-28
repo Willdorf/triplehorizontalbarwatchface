@@ -5,8 +5,13 @@
 #define KEY_BOTTOM_BAR_COLOR 2
 #define KEY_BACKGROUND_COLOR 3
 
+#define KEY_TEMPERATURE 4
+#define KEY_CONDITIONS 5
+
 static Window *window;
 static Layer *s_layer;
+static TextLayer *s_date_layer;
+static TextLayer *s_weather_layer;
 
 static Layer *s_bluetooth_icon_layer;
 static bool s_bluetooth_connected;
@@ -63,6 +68,13 @@ static void update_time(struct tm * tick_time) {
 	s_hour = tick_time->tm_hour;
 	s_min = tick_time->tm_min;
 	s_sec = tick_time->tm_sec;
+
+	//update the date using localized format
+	text_layer_set_text_color(s_date_layer, gcolor_legible_over(background_color));
+	static char date_buffer[20];
+	strftime(date_buffer, sizeof(date_buffer), "%x", tick_time);
+	text_layer_set_text(s_date_layer, date_buffer);
+
 	layer_mark_dirty(s_layer);
 }
 
@@ -78,6 +90,28 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 	Tuple *middle_bar_color_t = dict_find(iter, KEY_MIDDLE_BAR_COLOR);
 	Tuple *bottom_bar_color_t = dict_find(iter, KEY_BOTTOM_BAR_COLOR);
 	Tuple *background_color_t = dict_find(iter, KEY_BACKGROUND_COLOR);
+
+	Tuple *temp_t = dict_find(iter, KEY_TEMPERATURE);
+	Tuple *conditions_t = dict_find(iter, KEY_CONDITIONS);
+
+	//Store incoming information
+	static char temperature_buffer[8];
+	static char conditions_buffer[32];
+	static char weather_layer_buffer[42];
+
+	if (temp_t) {
+		snprintf(temperature_buffer, sizeof(temperature_buffer), "%d\u00B0", (int) temp_t->value->int32);
+	}
+
+	if (conditions_t) {
+		snprintf(conditions_buffer, sizeof(conditions_buffer), "%s", conditions_t->value->cstring);
+	}
+
+	if (conditions_t && temp_t) {
+		snprintf(weather_layer_buffer, sizeof(weather_layer_buffer), "%s, %s", temperature_buffer, conditions_buffer);
+		text_layer_set_text_color(s_weather_layer, gcolor_legible_over(background_color));
+		text_layer_set_text(s_weather_layer, weather_layer_buffer);
+	}
 
 	if (top_bar_color_t) {
 		int top_bar_color = top_bar_color_t->value->int32;
@@ -129,6 +163,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 		set_background_and_text_color(background_color);
 	}
 
+	time_t start_time = time(NULL);
+	update_time(localtime(&start_time));
+
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
@@ -165,6 +202,17 @@ static void draw_watchface(Layer *layer, GContext *ctx) {
 	graphics_fill_rect(ctx, GRect(PADDING,vert_padding + (2*HEIGHT) + (2 * PADDING),(s_sec * width)/60, HEIGHT), 0, 0);
 }
 
+static void inbox_dropped_callback(AppMessageResult reason, void *context) {
+	APP_LOG(APP_LOG_LEVEL_ERROR, "Message Dropped!");
+}
+
+static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
+	APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
+}
+
+static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
+	APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
+}
 
 static void window_load(Window *window) {
 	Layer *window_layer = window_get_root_layer(window);
@@ -225,6 +273,14 @@ static void window_load(Window *window) {
 		set_background_and_text_color(0xFFFFFF);
 	}
 
+	s_weather_layer = text_layer_create(GRect(0,152, 144, 14));
+	text_layer_set_font(s_weather_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+	text_layer_set_background_color(s_weather_layer, GColorClear);
+	text_layer_set_text_color(s_weather_layer, gcolor_legible_over(background_color));
+	text_layer_set_text_alignment(s_weather_layer, GTextAlignmentRight);
+	text_layer_set_text(s_weather_layer, "Loading...");
+	layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_weather_layer));
+
 	s_bluetooth_icon_layer = layer_create(GRect(0,0,30,30));
 	layer_set_update_proc(s_bluetooth_icon_layer, bluetooth_update_proc);
 	bluetooth_path = gpath_create(&BLUETOOTH_INFO);
@@ -236,6 +292,13 @@ static void window_load(Window *window) {
 #elif PBL_SDK_3
 	bluetooth_callback(connection_service_peek_pebble_app_connection());
 #endif
+
+	s_date_layer = text_layer_create(GRect(0,0,144,14));
+	text_layer_set_font(s_date_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+	text_layer_set_text_color(s_date_layer, gcolor_legible_over(background_color));
+	text_layer_set_background_color(s_date_layer, GColorClear);
+	text_layer_set_text_alignment(s_date_layer, GTextAlignmentRight);
+	layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_date_layer));
 
 }
 
@@ -249,6 +312,12 @@ static void window_unload(Window *window) {
 
 	//destroy the main layer
 	layer_destroy(s_layer);
+
+	//destroy the date layer
+	text_layer_destroy(s_date_layer);
+
+	//destroy the weather layer
+	text_layer_destroy(s_weather_layer);
 
 	//destroy the bluetooth stuffs
 	layer_destroy(s_bluetooth_icon_layer);
@@ -267,7 +336,13 @@ static void init(void) {
 	//Register with TickTimerService
 	tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
 
+	//Register Callbacks
 	app_message_register_inbox_received(inbox_received_handler);
+	app_message_register_inbox_dropped(inbox_dropped_callback);
+	app_message_register_outbox_failed(outbox_failed_callback);
+	app_message_register_outbox_sent(outbox_sent_callback);
+	
+	//open AppMessage
 	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
 
 	//Register for Bluetooth connections updates

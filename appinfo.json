@@ -16,7 +16,9 @@
 	  "topBarColor" : 0,
 	  "middleBarColor" : 1,
 	  "bottomBarColor" : 2,
-	  "backgroundColor" : 3
+	  "backgroundColor" : 3,
+	  "KEY_TEMPERATURE" : 4,
+	  "KEY_CONDITIONS" : 5
   },
   "resources": {
     "media": [
